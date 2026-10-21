@@ -19,7 +19,15 @@ from manopth.tensutils import th_posemap_axisang, make_list, th_pack, subtract_f
 from utils import fast_load_obj, plot_hand_w_object
 
 def Visualize():
+    """Press any keys to move to show the next example"""
     grasps = glob.glob('data/grasps/obj_*')
+    # grasps = glob.glob('data/grasps/obj_21_*')
+    # grasps = [
+    #     'data/grasps/obj_21_grasp_7.pickle',
+    #     'data/grasps/obj_21_grasp_-2.pickle',
+    #     'data/grasps/obj_21_grasp_-3.pickle',
+    #     'data/grasps/obj_21_grasp_-4.pickle',
+    # ]
     grasps.sort()
     np.random.seed(1)
     np.random.shuffle(grasps)

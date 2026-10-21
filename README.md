@@ -51,8 +51,62 @@ python -u visualize_grasps.py
 
 With the YCB Video Dataset downloaded, the grasps on scene can be visualized using the following command. This picks one of the valid grasps at random at plots the objects, the hands in grasping positions, and the plane of the supporting table.
 
+PRESS ANY KEYS TO SEE THE NEXT EXAMPLES
 ```
 python -u visualize_YCB_Affordance.py
+```
+
+## Export object-surface human grasp affordances
+
+The original annotations are posed MANO hand meshes, not point-wise object
+labels. `export_human_grasp_affordance.py` converts them into deterministic,
+point-aligned proximity labels for each of the 58 annotated YCB objects. Run it
+from the same `ycb_affordance` environment used by `visualize_grasps.py`:
+
+```
+python -u export_human_grasp_affordance.py
+```
+
+For a quick single-object check:
+
+```
+python -u export_human_grasp_affordance.py \
+  --objects 006_mustard_bottle --points 2048 --overwrite
+```
+
+Outputs are written under `outputs/human_grasp_affordance/<object>/`:
+
+- `affordance.npz`: aligned points, normals, soft proximity scores, per-grasp
+  contact frequency, hard mask, contact count, and minimum hand distance.
+- `affordance.ply`: colored preview with the same scalar labels as PLY vertex
+  properties.
+- `metadata.json`: thresholds, source grasps, taxonomy counts, units, hashes,
+  and the exact label definition.
+- `manifest.json`: resumable whole-dataset status and per-object counts.
+
+The default hard mask marks object points within 5 mm of at least one annotated
+MANO surface. The soft score is a 10 mm Gaussian of the minimum distance. These
+are proximity-derived pseudo-contact labels, not measured pressure or force.
+Use `--contact-threshold-mm` and `--sigma-mm` to change them. Existing objects
+are skipped unless `--overwrite` is supplied.
+
+To overwrite an object's aggregate using only selected annotations, pass exact
+pickle paths or a quoted glob. For the manually verified `025_mug` handle
+grasps `-5` through `-1`:
+
+```
+python -u export_human_grasp_affordance.py \
+  --grasp-paths 'data/grasps/obj_21_grasp_-[1-5].pickle' \
+  --overwrite
+```
+
+This replaces only `outputs/human_grasp_affordance/025_mug`; the other object
+exports remain unchanged. The five selected filenames are recorded in its
+`metadata.json` and the resolved paths are recorded in the manifest.
+
+## Visualize human grasp affordance results
+```
+meshlab \path\to\object.ply
 ```
 
 ## Citing
