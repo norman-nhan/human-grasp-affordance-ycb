@@ -21,12 +21,13 @@ from utils import fast_load_obj, plot_hand_w_object
 def Visualize():
     """Press any keys to move to show the next example"""
     grasps = glob.glob('data/grasps/obj_*')
-    # grasps = glob.glob('data/grasps/obj_21_*')
+    # grasps = glob.glob('data/grasps/obj_41_*')
     # grasps = [
-    #     'data/grasps/obj_21_grasp_7.pickle',
-    #     'data/grasps/obj_21_grasp_-2.pickle',
-    #     'data/grasps/obj_21_grasp_-3.pickle',
-    #     'data/grasps/obj_21_grasp_-4.pickle',
+        # 'data/grasps/obj_40_grasp_0.pickle',
+        # 'data/grasps/obj_40_grasp_1.pickle',
+        # 'data/grasps/obj_40_grasp_2.pickle',
+        # 'data/grasps/obj_40_grasp_3.pickle',
+        # 'data/grasps/obj_40_grasp_4.pickle',
     # ]
     grasps.sort()
     np.random.seed(1)
